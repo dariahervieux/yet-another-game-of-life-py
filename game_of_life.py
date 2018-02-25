@@ -3,6 +3,7 @@ import numpy as np
 
 #Cell class - a unit of a world. Rules implementation
 class Cell(object):
+    #returns a tuple (sequence of immutable objects): 0 element - neighbours start coord, 1 element - end coord
     @staticmethod
     def get_neighbours_start_end(n, elements_number):
         return (max (n-1, 0), min (n+2, elements_number))
@@ -41,16 +42,16 @@ class World(object):
             seed_y_end = seed_pos_y + array_seed.shape[1]            
             if seed_x_end > dim_x or seed_y_end > dim_y:
                 print('seed_x_end %d, seed_y_end %d' %  (seed_x_end, seed_y_end))
-                raise ValueError("Incompatible dimentions") 
+                raise ValueError("Incompatible dimensions") 
             self.world[seed_pos_x:seed_x_end, seed_pos_y:seed_y_end] = array_seed
 
     def next(self):
-        nextWorld = np.copy(self.world)
+        next_world = np.copy(self.world)
         for i in range(self.world.shape[0]):
             for j in range(self.world.shape[1]):
-                nextWorld[i,j] = Cell.get_next_state(i,j, self.world)
-        self.world = nextWorld
-        return nextWorld
+                next_world[i,j] = Cell.get_next_state(i,j, self.world)
+        self.world = next_world
+        return next_world
 
     def let_it_live(self, cycles_number):
         print('\n')
